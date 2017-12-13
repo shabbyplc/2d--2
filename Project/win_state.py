@@ -1,26 +1,27 @@
 import game_framework
-import select_state
-import os
+import title_state
+
 from pico2d import *
 
-name = "TitleState"
+name = "WinState"
 image = None
 bgm = None
 
 def enter():
     global image
-    open_canvas()
-    image = load_image('dist/etc/main.png')
- 
+    image = load_image('etc/win.png')
+    
+  
+
 
 def exit():
     global image
     del(image)
-    close_canvas()
-    
+
 
 
 def handle_events(frame_time):
+    global select_count
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -28,12 +29,11 @@ def handle_events(frame_time):
         else:
             if(event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
-            elif(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.push_state(select_state)
-
+            if(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+                game_framework.change_state(title_state)
 
 def draw(frame_time):
-    global image
+    global select_count
     clear_canvas()
     image.draw(400, 300)
     update_canvas()
