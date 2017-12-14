@@ -76,8 +76,8 @@ class BackGround:
 
     def __init__(self):
         self.y1, self.y2 = 300, 900
-        self.image1 = load_image('background/background_sky.png')
-        self.image2 = load_image('background/background_space.png')
+        self.image1 = load_image('background/background_space1.png')
+        self.image2 = load_image('background/background_space2.png')
 
     def update(self, frame_time):
         speed = frame_time * self.MOVE_PER_SEC
@@ -214,14 +214,13 @@ class Missile:
         move_distance = frame_time * self.MOVE_PER_SEC
         global newmissile
         self.y += move_distance
-        self.x += move_distance
         if self.y > 600 :
             self.y = 0
             del Missile_List[0]
 
     def draw(self):
-        self.image.draw(self.x, self.y + 30)
-
+        self.image.draw(self.x, self.y+30)
+        self.image.draw(self.x *-1,self.y *-1)
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
@@ -304,7 +303,7 @@ class Enemy:
     def __init__(self):
         self.x, self.y = random.randint(50, 750), random.randint(50,400)
         self.missile_count = 0
-        self.image = load_image('enemy/enemy_4.png')
+        self.image = load_image('enemy/NPC.png')
 
     def update(self, frame_time):
         speed = frame_time * self.MOVE_PER_SEC
@@ -428,7 +427,7 @@ class Enemy_Missile:
     def update(self, frame_time):
         speed = frame_time * self.MOVE_PER_SEC
         self.total_frames += frame_time * self.FRAME_PER_SEC
-        self.y -= speed
+        self.x -= speed
         self.frame = int(self.total_frames) % 3
         if self.y < 0:
             return False
