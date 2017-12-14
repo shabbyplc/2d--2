@@ -50,7 +50,7 @@ class Timer:
         self.create_boss()
 
     def create_enemy(self):
-        if self.enemy_time >= 0.7:
+        if self.enemy_time >= 1:
             new_enemy = Enemy()
             Enemy_List.append(new_enemy)
             self.enemy_time = 0
@@ -166,6 +166,8 @@ class Player2:
         self.key_down = False
         self.left_move = 0
         self.right_move = 0
+        self.up_move = 0
+        self.down_move = 0
         self.special_count = 1
 
 
@@ -182,6 +184,17 @@ class Player2:
             self.frame += 1
             if self.frame == 11 :
                 self.frame = 6
+
+        elif self.up_move == 1:
+            self.y = max(0, self.y + move_distance)
+           # self.frame += 1
+            if self.frame == 1 :
+                self.frame = 1        
+        elif self.down_move == 1:
+            self.y = min(600, self.y - move_distance)
+           # self.frame -= 1
+            if self.frame == 1 :
+                self.frame = 1
 
     def draw(self):
         self.image.clip_draw(self.frame*64, 0, 64, 72, self.x, self.y)
@@ -298,11 +311,11 @@ class Special_Missile:
 
 
 class Enemy:
-    MOVE_PER_SEC = 30
+    MOVE_PER_SEC = 15
     SHOT_PER_SEC = 1
 
     def __init__(self):
-        self.x, self.y = random.randint(50, 750), random.randint(50,400)
+        self.x, self.y = random.randint(10, 750), random.randint(50,400)
         self.missile_count = 0
         self.image = load_image('enemy/NPC.png')
 
@@ -420,7 +433,7 @@ class Enemy_Missile:
     FRAME_PER_SEC = 5
 
     def __init__(self, x, y):
-        self.x, self.y = x, y
+        self.x, self.y = x,y
         self.frame = 0
         self.total_frames = 0
         self.image = load_image('missile/enemy_missile.png')
@@ -428,8 +441,8 @@ class Enemy_Missile:
     def update(self, frame_time):
         speed = frame_time * self.MOVE_PER_SEC
         self.total_frames += frame_time * self.FRAME_PER_SEC
-        self.x -= speed
-        self.frame = int(self.total_frames) % 3
+        self.x -= speed /10
+        self.frame = int(self.total_frames) % 2
         if self.y < 0:
             return False
 
@@ -800,6 +813,10 @@ def update(frame_time):
     for enemy_plane_missile in Enemy_Missile_List:
         if collision(enemy_plane_missile, player1):
             game_framework.push_state(lose_state)
+    # 적 기체와 플레이어가 충돌한다면
+    for enemy in Enemy_List:
+        if collision(enemy,player1):
+            game_framework.push_state(select_state)
 
     #적 보스의 미사일과 플레이어가 충돌한다면
     for boss_missile in Boss_Missile_List:
