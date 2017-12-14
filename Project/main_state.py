@@ -145,7 +145,7 @@ class Player:
     def missile_shoot(self):
         newmissile = Missile(self.x, self.y)
         Missile_List.append(newmissile)
-
+      
 
     def special_missile_shoot(self):
         if player1.special_count > 0 :
@@ -153,6 +153,7 @@ class Player:
             newspecialmissile.num = self.special_count
             Special_Missile_List.append(newspecialmissile)
             self.special_count -= 1
+
 
 
 class Player2:

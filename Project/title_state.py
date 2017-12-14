@@ -10,7 +10,7 @@ bgm = None
 def enter():
     global image
     open_canvas()
-    image = load_image('dist/etc/main.png')
+    image = load_image('etc/main.png')
  
 
 def exit():
