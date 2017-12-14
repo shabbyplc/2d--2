@@ -122,15 +122,15 @@ class Player:
                 self.frame = 6
       
         elif self.up_move == 1:
-            self.y = min(600, self.y + move_distance)
-            self.frame += 1
-            if self.frame == 11 :
-                self.frame = 6        
+            self.y = max(0, self.y + move_distance)
+           # self.frame += 1
+            if self.frame == 1 :
+                self.frame = 1        
         elif self.down_move == 1:
-            self.y = max(0, self.y - move_distance)
-            self.frame -= 1
-            if self.frame == 11 :
-                self.frame = 6
+            self.y = min(600, self.y - move_distance)
+           # self.frame -= 1
+            if self.frame == 1 :
+                self.frame = 1
 
 
     def draw(self):
@@ -602,33 +602,38 @@ def handle_events(frame_time):
                 player1.key_down = True
                 player1.left_move = 1
                 player1.right_move = 0
+                player1.up_move =0
+                player1.down_move =0
                 if event.key == SDLK_RIGHT:
                     player1.left_move = 0
                     player1.right_move = 1
+                    player1.up_move =0
+                    player1.down_move =0
 
             elif event.key == SDLK_RIGHT:
                 player1.key_down = True
                 player1.right_move = 1
                 player1.left_move = 0
+                player1.up_move =0
+                player1.down_move =0
                 if event.key == SDLK_LEFT:
                     player1.left_move = 1
                     player1.right_move = 0
+                    
             
             elif event.key == SDLK_UP:
                 player1.key_down = True
                 player1.up_move = 1
                 player1.down_move = 0
-                if event.key == SDLK_DOWN:
-                    player1.up_move = 0
-                    player1.down_move = 1
-
+                player1.right_move = 0
+                player1.left_move = 0
+                
             elif event.key == SDLK_DOWN:
                 player1.key_down = True
                 player1.down_move = 1
                 player1.up_move = 0
-                if event.key == SDLK_UP:
-                    player1.down_move = 1
-                    player1.up_move = 0
+                player1.right_move = 0
+                player1.left_move = 0 
 
             elif event.key == SDLK_SPACE:
                 player1.missile_shoot()
